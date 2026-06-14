@@ -1,16 +1,18 @@
-// Firebase Realtime Database integration.
-// Provide credentials via these Vite env vars OR edit the object below.
-// VITE_FIREBASE_API_KEY, VITE_FIREBASE_DATABASE_URL, VITE_FIREBASE_PROJECT_ID, VITE_FIREBASE_APP_ID
+// Firebase Realtime Database integration — Cricket Ground Control System
+// University of Moratuwa Engineering Project
 import { initializeApp, type FirebaseApp } from "firebase/app";
 import { getDatabase, ref, onValue, type Database } from "firebase/database";
 import type { SensorData } from "./sensor-types";
 
 const config = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string | undefined,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string | undefined,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string | undefined,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
+  apiKey: "AIzaSyCsjIUUEqZdgET_oQGhFWD1E683T8WfjIA",
+  authDomain: "cricket-ground-control.firebaseapp.com",
+  databaseURL: "https://cricket-ground-control-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "cricket-ground-control",
+  storageBucket: "cricket-ground-control.firebasestorage.app",
+  messagingSenderId: "527268729026",
+  appId: "1:527268729026:web:76d30a275f79ee46806b5b",
+  measurementId: "G-9GVRV57FEV",
 };
 
 let app: FirebaseApp | null = null;
@@ -21,7 +23,7 @@ export const firebaseEnabled = Boolean(config.apiKey && config.databaseURL);
 export function getFirebaseDB(): Database | null {
   if (!firebaseEnabled) return null;
   if (!app) {
-    app = initializeApp(config as Record<string, string>);
+    app = initializeApp(config);
     db = getDatabase(app);
   }
   return db;
