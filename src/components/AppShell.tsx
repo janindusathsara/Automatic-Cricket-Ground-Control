@@ -91,7 +91,7 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
         </button>
       </div>
 
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-border/60 grid grid-cols-5">
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-border/60 grid grid-cols-6">
         {NAV.map(({ to, icon: Icon, label }) => {
           const active = pathname === to;
           return (
