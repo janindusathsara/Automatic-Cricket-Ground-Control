@@ -59,11 +59,11 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
         <div className="mt-auto flex flex-col gap-2 px-2 pb-2">
           <div className="rounded-lg border border-border/60 px-3 py-2 text-xs">
             <div className="flex items-center gap-2">
-              <span className={`live-dot inline-block h-2 w-2 rounded-full ${connected ? "bg-success" : "bg-destructive"}`} />
-              <span className="font-medium">{connected ? "Live" : "Offline"}</span>
+              <span className={`live-dot inline-block h-2 w-2 rounded-full ${usingMock ? "bg-warning" : connected ? "bg-success" : "bg-destructive"}`} />
+              <span className="font-medium">{usingMock ? "Simulated" : connected ? "Live" : "Offline"}</span>
             </div>
             <div className="text-muted-foreground mt-1">
-              {usingMock ? "Simulated stream" : "Firebase RTDB"}
+              {usingMock ? "Demo data (no DB records)" : "Firebase RTDB"}
             </div>
           </div>
           <button
