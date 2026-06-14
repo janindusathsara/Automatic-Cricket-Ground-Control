@@ -1,36 +1,12 @@
 {
   "files": [
     {
-      "name": "Project Report",
-      "filename": "project-report.pdf",
+      "name": "Project Proposal",
+      "filename": "Project Proposal.pdf",
       "type": "PDF",
-      "path": "/documents/project-report.pdf",
-      "size": "2.4 MB",
+      "path": "/documents/Project Proposal.pdf",
+      "size": "270 kB",
       "description": "Complete project report documenting the Automated Cricket Ground Control System design, implementation, and testing."
-    },
-    {
-      "name": "Final Presentation",
-      "filename": "final-presentation.pptx",
-      "type": "PPTX",
-      "path": "/documents/final-presentation.pptx",
-      "size": "5.1 MB",
-      "description": "Final year project presentation slides for the evaluation panel."
-    },
-    {
-      "name": "Technical Documentation",
-      "filename": "technical-documentation.pdf",
-      "type": "PDF",
-      "path": "/documents/technical-documentation.pdf",
-      "size": "1.8 MB",
-      "description": "Detailed technical documentation including system architecture, sensor specifications, and DAQ integration."
-    },
-    {
-      "name": "LabVIEW Source Guide",
-      "filename": "labview-guide.pdf",
-      "type": "PDF",
-      "path": "/documents/labview-guide.pdf",
-      "size": "1.2 MB",
-      "description": "Guide to the LabVIEW virtual instrument and data acquisition programming."
     }
   ]
 }
