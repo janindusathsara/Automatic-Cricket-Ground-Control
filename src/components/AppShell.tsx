@@ -73,8 +73,12 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             {theme === "dark" ? "Light mode" : "Dark mode"}
           </button>
-          <div className="text-[10px] text-muted-foreground px-1">
-            University of Moratuwa · FYP
+          <div className="text-[10px] text-muted-foreground px-1 space-y-0.5">
+            <p className="font-medium text-foreground/80">Janindu Sathsara Rajapaksha</p>
+            <p className="font-medium text-foreground/80">Manusha Thiwankara Rajapskshe</p>
+            <p className="font-medium text-foreground/80">Hasindu Nimesh Rajapakshe</p>
+            <p className="pt-1">Semester 4 · Electrical Measurements and Instrumentation Project</p>
+            <p>Department of Electrical Engineering, University of Moratuwa.</p>
           </div>
         </div>
       </aside>
