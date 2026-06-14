@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as SystemRouteImport } from './routes/system'
 import { Route as GroundRouteImport } from './routes/ground'
+import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -30,6 +31,11 @@ const GroundRoute = GroundRouteImport.update({
   path: '/ground',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -44,6 +50,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/documents': typeof DocumentsRoute
   '/ground': typeof GroundRoute
   '/system': typeof SystemRoute
   '/weather': typeof WeatherRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/documents': typeof DocumentsRoute
   '/ground': typeof GroundRoute
   '/system': typeof SystemRoute
   '/weather': typeof WeatherRoute
@@ -59,21 +67,36 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/documents': typeof DocumentsRoute
   '/ground': typeof GroundRoute
   '/system': typeof SystemRoute
   '/weather': typeof WeatherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analytics' | '/ground' | '/system' | '/weather'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/documents'
+    | '/ground'
+    | '/system'
+    | '/weather'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analytics' | '/ground' | '/system' | '/weather'
-  id: '__root__' | '/' | '/analytics' | '/ground' | '/system' | '/weather'
+  to: '/' | '/analytics' | '/documents' | '/ground' | '/system' | '/weather'
+  id:
+    | '__root__'
+    | '/'
+    | '/analytics'
+    | '/documents'
+    | '/ground'
+    | '/system'
+    | '/weather'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  DocumentsRoute: typeof DocumentsRoute
   GroundRoute: typeof GroundRoute
   SystemRoute: typeof SystemRoute
   WeatherRoute: typeof WeatherRoute
@@ -102,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroundRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/analytics': {
       id: '/analytics'
       path: '/analytics'
@@ -122,6 +152,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  DocumentsRoute: DocumentsRoute,
   GroundRoute: GroundRoute,
   SystemRoute: SystemRoute,
   WeatherRoute: WeatherRoute,

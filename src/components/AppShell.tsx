@@ -8,6 +8,7 @@ import {
   Moon,
   Sun,
   Activity,
+  FileText,
 } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 
@@ -17,6 +18,7 @@ const NAV = [
   { to: "/weather", label: "Weather", icon: CloudSun },
   { to: "/ground", label: "Ground Monitoring", icon: Sprout },
   { to: "/system", label: "System Status", icon: Cpu },
+  { to: "/documents", label: "Documents", icon: FileText },
 ] as const;
 
 export function AppShell({ children, connected, usingMock }: { children: React.ReactNode; connected: boolean; usingMock: boolean }) {
@@ -89,7 +91,7 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
         </button>
       </div>
 
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-border/60 grid grid-cols-5">
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-border/60 grid grid-cols-6">
         {NAV.map(({ to, icon: Icon, label }) => {
           const active = pathname === to;
           return (
