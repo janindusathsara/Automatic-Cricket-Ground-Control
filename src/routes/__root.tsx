@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "@/lib/theme";
 import { AppShell } from "@/components/AppShell";
-import { useSensorData } from "@/lib/useSensorData";
+import { SensorProvider, useSensors } from "@/lib/sensor-context";
 
 function NotFoundComponent() {
   return (
@@ -84,7 +84,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function ShellWithData() {
-  const { connected, usingMock } = useSensorData();
+  const { connected, usingMock } = useSensors();
   return (
     <AppShell connected={connected} usingMock={usingMock}>
       <Outlet />
@@ -97,7 +97,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <ShellWithData />
+        <SensorProvider>
+          <ShellWithData />
+        </SensorProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
