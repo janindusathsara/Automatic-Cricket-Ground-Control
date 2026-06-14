@@ -73,13 +73,6 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             {theme === "dark" ? "Light mode" : "Dark mode"}
           </button>
-          <div className="text-[10px] text-muted-foreground px-1 space-y-0.5">
-            <p className="font-medium text-foreground/80">Janindu Sathsara Rajapaksha</p>
-            <p className="font-medium text-foreground/80">Manusha Thiwankara Rajapskshe</p>
-            <p className="font-medium text-foreground/80">Hasindu Nimesh Rajapakshe</p>
-            <p className="pt-1">Semester 4 · Electrical Measurements and Instrumentation Project</p>
-            <p>Department of Electrical Engineering, University of Moratuwa.</p>
-          </div>
         </div>
       </aside>
 
@@ -114,7 +107,14 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
         })}
       </div>
 
-      <main className="flex-1 min-w-0 p-4 md:p-8 pt-20 md:pt-8 pb-24 md:pb-8">{children}</main>
+      <div className="flex-1 flex flex-col min-w-0">
+        <main className="flex-1 min-w-0 p-4 md:p-8 pt-20 md:pt-8 pb-6 md:pb-6">{children}</main>
+        <footer className="border-t border-border/60 bg-muted/30 px-4 md:px-8 py-4 text-center text-xs text-muted-foreground">
+          <p className="font-medium text-foreground/80">Janindu Sathsara Rajapaksha · Manusha Thiwankara Rajapskshe · Hasindu Nimesh Rajapakshe</p>
+          <p className="mt-1">Semester 4 · Electrical Measurements and Instrumentation Project</p>
+          <p className="mt-0.5">Department of Electrical Engineering, University of Moratuwa.</p>
+        </footer>
+      </div>
     </div>
   );
 }
