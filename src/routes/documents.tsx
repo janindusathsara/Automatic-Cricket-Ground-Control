@@ -85,12 +85,6 @@ function DocumentsPage() {
           );
         })}
       </div>
-
-      <div className="glass rounded-xl p-4 text-center text-xs text-muted-foreground">
-        <p>
-          Place new files in the <code className="rounded bg-muted px-1 py-0.5 font-mono text-foreground">public/documents/</code> folder and update <code className="rounded bg-muted px-1 py-0.5 font-mono text-foreground">documents/files.json</code> to add them here.
-        </p>
-      </div>
     </div>
   );
 }
