@@ -23,6 +23,52 @@ export type HistoryPoint = {
 
 const MAX_HISTORY = 120;
 
+function toNumber(value: unknown, fallback: number): number {
+  const parsed = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function toBoolean(value: unknown, fallback = false): boolean {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") return value.toLowerCase() === "true";
+  if (typeof value === "number") return value !== 0;
+  return fallback;
+}
+
+function normalizeLastUpdated(value: unknown): number | string {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && /^\d{1,2}:\d{2}(:\d{2})?$/.test(value)) {
+    const [hours = 0, minutes = 0, seconds = 0] = value.split(":").map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds, 0);
+    return date.getTime();
+  }
+  if (typeof value === "string" && !Number.isNaN(new Date(value).getTime())) return value;
+  return Date.now();
+}
+
+function normalizeSensorData(raw: unknown): SensorData | null {
+  if (!raw || typeof raw !== "object") return null;
+  const source = raw as Record<string, unknown>;
+
+  return {
+    temperature: toNumber(source.temperature, 0),
+    humidity: toNumber(source.humidity, 0),
+    light: toNumber(source.light, 0),
+    rain: toBoolean(source.rain ?? source.rainDetected ?? source.rainStatus, false),
+    soilMoisture: toNumber(source.soilMoisture ?? source.moisture, 0),
+    weatherCondition: typeof source.weatherCondition === "string" ? source.weatherCondition : undefined,
+    groundStatus: typeof source.groundStatus === "string" ? source.groundStatus as SensorData["groundStatus"] : undefined,
+    matchPlayable: typeof source.matchPlayable !== "undefined" ? toBoolean(source.matchPlayable) : undefined,
+    matchStatus: typeof source.matchStatus === "string" ? source.matchStatus as SensorData["matchStatus"] : undefined,
+    floodLights: toBoolean(source.floodLights, false),
+    irrigation: toBoolean(source.irrigation, false),
+    drainagePump: toBoolean(source.drainagePump, false),
+    rainAlertSystem: typeof source.rainAlertSystem !== "undefined" ? toBoolean(source.rainAlertSystem) : undefined,
+    lastUpdated: normalizeLastUpdated(source.lastUpdated),
+  };
+}
+
 function simulate(prev: SensorData | null): SensorData {
   const base =
     prev ??
@@ -60,7 +106,7 @@ function simulate(prev: SensorData | null): SensorData {
   return next;
 }
 
-export function useSensorData(path = "/sensors") {
+export function useSensorData(path = "/data") {
   const [data, setData] = useState<SensorData | null>(null);
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -93,13 +139,14 @@ export function useSensorData(path = "/sensors") {
           setConnected(false);
           return;
         }
-        console.info("[firebase] snapshot received:", val);
-        if (val) {
+        const normalized = normalizeSensorData(val);
+        console.info("[firebase] snapshot received:", val, "normalized:", normalized);
+        if (normalized) {
           setConnected(true);
           setUsingMock(false);
           setError(null);
-          dataRef.current = val;
-          setData(val);
+          dataRef.current = normalized;
+          setData(normalized);
         } else {
           // Path exists but is empty / null
           setError(`No data found at "${path}" in Realtime Database.`);
