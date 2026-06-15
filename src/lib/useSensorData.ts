@@ -85,22 +85,32 @@ export function useSensorData(path = "/sensors") {
     };
 
     if (firebaseEnabled) {
+      console.info("[firebase] subscribing to path:", path);
       unsub = subscribeSensorData(path, (val, err) => {
         if (err) {
+          console.error("[firebase] read error:", err);
           setError(err.message);
           setConnected(false);
           return;
         }
+        console.info("[firebase] snapshot received:", val);
         if (val) {
           setConnected(true);
+          setUsingMock(false);
           setError(null);
           dataRef.current = val;
           setData(val);
+        } else {
+          // Path exists but is empty / null
+          setError(`No data found at "${path}" in Realtime Database.`);
         }
       });
       // Fallback to mock if no data within 4s
       const fallback = setTimeout(() => {
-        if (!dataRef.current) startMock();
+        if (!dataRef.current) {
+          console.warn("[firebase] no data within 4s — starting simulated data");
+          startMock();
+        }
       }, 4000);
       return () => {
         clearTimeout(fallback);
@@ -108,6 +118,7 @@ export function useSensorData(path = "/sensors") {
         if (mockTimer) clearInterval(mockTimer);
       };
     } else {
+
       startMock();
       return () => {
         if (mockTimer) clearInterval(mockTimer);

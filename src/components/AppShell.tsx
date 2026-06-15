@@ -21,7 +21,7 @@ const NAV = [
   { to: "/documents", label: "Documents", icon: FileText },
 ] as const;
 
-export function AppShell({ children, connected, usingMock }: { children: React.ReactNode; connected: boolean; usingMock: boolean }) {
+export function AppShell({ children, connected, usingMock, error }: { children: React.ReactNode; connected: boolean; usingMock: boolean; error?: string | null }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { theme, toggle } = useTheme();
 
@@ -67,7 +67,11 @@ export function AppShell({ children, connected, usingMock }: { children: React.R
             <div className="text-muted-foreground mt-1">
               {usingMock ? "Demo data (no DB records)" : "Firebase RTDB"}
             </div>
+            {error && (
+              <div className="text-destructive mt-2 break-words">{error}</div>
+            )}
           </div>
+
           <button
             onClick={toggle}
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-accent/40 transition-colors"
