@@ -21,7 +21,7 @@ const NAV = [
   { to: "/documents", label: "Documents", icon: FileText },
 ] as const;
 
-export function AppShell({ children, connected, usingMock }: { children: React.ReactNode; connected: boolean; usingMock: boolean }) {
+export function AppShell({ children, connected, usingMock, error }: { children: React.ReactNode; connected: boolean; usingMock: boolean; error?: string | null }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { theme, toggle } = useTheme();
 
