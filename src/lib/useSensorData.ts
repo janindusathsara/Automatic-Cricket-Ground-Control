@@ -119,12 +119,6 @@ export function useSensorData(path = "/sensors") {
       };
     } else {
 
-      return () => {
-        clearTimeout(fallback);
-        unsub?.();
-        if (mockTimer) clearInterval(mockTimer);
-      };
-    } else {
       startMock();
       return () => {
         if (mockTimer) clearInterval(mockTimer);
