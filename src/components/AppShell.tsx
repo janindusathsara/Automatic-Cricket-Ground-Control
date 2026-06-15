@@ -67,7 +67,11 @@ export function AppShell({ children, connected, usingMock, error }: { children: 
             <div className="text-muted-foreground mt-1">
               {usingMock ? "Demo data (no DB records)" : "Firebase RTDB"}
             </div>
+            {error && (
+              <div className="text-destructive mt-2 break-words">{error}</div>
+            )}
           </div>
+
           <button
             onClick={toggle}
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm hover:bg-accent/40 transition-colors"
