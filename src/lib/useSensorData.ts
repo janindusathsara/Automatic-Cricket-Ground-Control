@@ -38,7 +38,7 @@ function toBoolean(value: unknown, fallback = false): boolean {
 function normalizeLastUpdated(value: unknown): number | string {
   if (typeof value === "number") return value;
   if (typeof value === "string" && /^\d{1,2}:\d{2}(:\d{2})?$/.test(value)) {
-    const [hours, minutes, seconds = "0"] = value.split(":").map(Number);
+    const [hours = 0, minutes = 0, seconds = 0] = value.split(":").map(Number);
     const date = new Date();
     date.setHours(hours, minutes, seconds, 0);
     return date.getTime();
