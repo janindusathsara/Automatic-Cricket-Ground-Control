@@ -84,12 +84,13 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function ShellWithData() {
-  const { connected, usingMock } = useSensors();
+  const { connected, usingMock, error } = useSensors();
   return (
-    <AppShell connected={connected} usingMock={usingMock}>
+    <AppShell connected={connected} usingMock={usingMock} error={error}>
       <Outlet />
     </AppShell>
   );
+
 }
 
 function RootComponent() {
