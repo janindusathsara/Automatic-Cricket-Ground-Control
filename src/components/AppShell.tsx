@@ -9,6 +9,7 @@ import {
   Sun,
   Activity,
   FileText,
+  Brain,
 } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 
@@ -17,6 +18,7 @@ const NAV = [
   { to: "/analytics", label: "Analytics", icon: LineChart },
   { to: "/weather", label: "Weather", icon: CloudSun },
   { to: "/ground", label: "Ground Monitoring", icon: Sprout },
+  { to: "/pitch", label: "AI Pitch Analysis", icon: Brain },
   { to: "/system", label: "System Status", icon: Cpu },
   { to: "/documents", label: "Documents", icon: FileText },
 ] as const;
