@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as SystemRouteImport } from './routes/system'
+import { Route as PitchRouteImport } from './routes/pitch'
 import { Route as GroundRouteImport } from './routes/ground'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
@@ -24,6 +25,11 @@ const WeatherRoute = WeatherRouteImport.update({
 const SystemRoute = SystemRouteImport.update({
   id: '/system',
   path: '/system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PitchRoute = PitchRouteImport.update({
+  id: '/pitch',
+  path: '/pitch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GroundRoute = GroundRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AnalyticsRoute
   '/documents': typeof DocumentsRoute
   '/ground': typeof GroundRoute
+  '/pitch': typeof PitchRoute
   '/system': typeof SystemRoute
   '/weather': typeof WeatherRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/documents': typeof DocumentsRoute
   '/ground': typeof GroundRoute
+  '/pitch': typeof PitchRoute
   '/system': typeof SystemRoute
   '/weather': typeof WeatherRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/documents': typeof DocumentsRoute
   '/ground': typeof GroundRoute
+  '/pitch': typeof PitchRoute
   '/system': typeof SystemRoute
   '/weather': typeof WeatherRoute
 }
@@ -79,16 +88,25 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/documents'
     | '/ground'
+    | '/pitch'
     | '/system'
     | '/weather'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analytics' | '/documents' | '/ground' | '/system' | '/weather'
+  to:
+    | '/'
+    | '/analytics'
+    | '/documents'
+    | '/ground'
+    | '/pitch'
+    | '/system'
+    | '/weather'
   id:
     | '__root__'
     | '/'
     | '/analytics'
     | '/documents'
     | '/ground'
+    | '/pitch'
     | '/system'
     | '/weather'
   fileRoutesById: FileRoutesById
@@ -98,6 +116,7 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   DocumentsRoute: typeof DocumentsRoute
   GroundRoute: typeof GroundRoute
+  PitchRoute: typeof PitchRoute
   SystemRoute: typeof SystemRoute
   WeatherRoute: typeof WeatherRoute
 }
@@ -116,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/system'
       fullPath: '/system'
       preLoaderRoute: typeof SystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pitch': {
+      id: '/pitch'
+      path: '/pitch'
+      fullPath: '/pitch'
+      preLoaderRoute: typeof PitchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ground': {
@@ -154,19 +180,10 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   DocumentsRoute: DocumentsRoute,
   GroundRoute: GroundRoute,
+  PitchRoute: PitchRoute,
   SystemRoute: SystemRoute,
   WeatherRoute: WeatherRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
