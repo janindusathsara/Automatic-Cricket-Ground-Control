@@ -60,8 +60,8 @@ function normalizeSensorData(raw: unknown): SensorData | null {
     humidity: toNumber(s.humidity, 0),
     light: toNumber(s.light, 0),
     rain: toBoolean(s.rain, false),
-    // Firebase node uses "soilMoisure" (typo); also accept correct spelling
-    soilMoisture: toNumber(s.soilMoisure ?? s.soilMoisture, 0),
+    // Prefer the current Firebase node; keep the old typo as a fallback only.
+    soilMoisture: toNumber(s.soilMoisture ?? s.soilMoisure, 0),
     floodLights: toBoolean(s.floodLights, false),
     irrigation: toBoolean(s.irrigation, false),
     drainagePump: toBoolean(s.drainagePump, false),
