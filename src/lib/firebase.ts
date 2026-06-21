@@ -2,12 +2,12 @@
 // University of Moratuwa Engineering Project
 import { initializeApp, type FirebaseApp } from "firebase/app";
 import { getDatabase, ref, onValue, type Database } from "firebase/database";
-import type { SensorData } from "./sensor-types";
 
 const config = {
   apiKey: "AIzaSyCsjIUUEqZdgET_oQGhFWD1E683T8WfjIA",
   authDomain: "cricket-ground-control.firebaseapp.com",
-  databaseURL: "https://cricket-ground-control-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL:
+    "https://cricket-ground-control-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "cricket-ground-control",
   storageBucket: "cricket-ground-control.firebasestorage.app",
   messagingSenderId: "527268729026",
@@ -29,17 +29,18 @@ export function getFirebaseDB(): Database | null {
   return db;
 }
 
-export function subscribeSensorData(
+/** Subscribe to any RTDB path; returns unsubscribe. */
+export function subscribeNode<T = unknown>(
   path: string,
-  cb: (data: SensorData | null, err?: Error) => void
+  cb: (data: T | null, err?: Error) => void,
 ): () => void {
   const database = getFirebaseDB();
   if (!database) return () => {};
   const r = ref(database, path);
   const unsub = onValue(
     r,
-    (snap) => cb((snap.val() as SensorData) ?? null),
-    (err) => cb(null, err as Error)
+    (snap) => cb((snap.val() as T) ?? null),
+    (err) => cb(null, err as Error),
   );
   return () => unsub();
 }
