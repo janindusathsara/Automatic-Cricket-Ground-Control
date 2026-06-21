@@ -11,13 +11,11 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
-    
-    // Add the SPA options right here inside the object block:
+    // SPA prerender disabled: the preview-server-plugin in @tanstack/start-plugin-core
+    // looks for `dist/server/server.js`, but Nitro emits `dist/server/index.mjs`,
+    // causing the prerender crawler to 500 on every page.
     spa: {
       enabled: true,
-      prerender: {
-        outputPath: '/index.html'
-      }
-    }
+    },
   },
 });
