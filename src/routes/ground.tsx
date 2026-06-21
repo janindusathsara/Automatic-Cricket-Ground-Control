@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Sprout, CloudRain, Sun, MoonStar, Activity } from "lucide-react";
 import { useSensors } from "@/lib/sensor-context";
 import { AlertPanel } from "@/components/AlertPanel";
+import type { GroundStatus } from "@/lib/sensor-types";
 
 export const Route = createFileRoute("/ground")({
   head: () => ({
@@ -13,8 +14,15 @@ export const Route = createFileRoute("/ground")({
   component: Ground,
 });
 
+const statusColor: Record<GroundStatus, string> = {
+  Excellent: "text-success",
+  Good: "text-info",
+  Moderate: "text-warning",
+  Poor: "text-destructive",
+};
+
 function Ground() {
-  const { data } = useSensors();
+  const { data, weather } = useSensors();
   if (!data) return <div className="h-96 rounded-2xl bg-muted animate-pulse" />;
 
   return (
@@ -29,21 +37,23 @@ function Ground() {
         <div className="lg:col-span-2 glass rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-display text-lg font-bold">Field View</h3>
-            <span className="text-xs text-muted-foreground">Status: {data.derivedGround}</span>
+            <span className={`text-xs font-bold ${statusColor[data.derivedGround]}`}>
+              Status: {data.derivedGround}
+            </span>
           </div>
           <FieldMap moisture={data.soilMoisture} rain={data.rain} light={data.light} />
         </div>
 
         <div className="flex flex-col gap-4">
-          <Gauge label="Soil Moisture" value={data.soilMoisture} max={100} unit="%" tone={data.soilMoisture > 70 ? "danger" : "success"} icon={Sprout} />
-          <Gauge label="Light Level" value={data.light} max={1200} unit="lux" tone={data.light < 200 ? "warning" : "info"} icon={Sun} />
+          <Gauge label="Soil Moisture" value={data.soilMoisture} max={100} unit="%" tone={data.soilMoisture > 75 ? "danger" : "success"} icon={Sprout} />
+          <Gauge label="Light Level" value={data.light} max={1500} unit="lux" tone={data.light < 200 ? "warning" : "info"} icon={Sun} />
           <div className="glass rounded-2xl p-5">
             <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
               <Activity className="h-4 w-4" /> Environmental
             </div>
             <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
               <Pill icon={CloudRain} label="Rain" value={data.rain ? "Active" : "None"} active={data.rain} />
-              <Pill icon={Sprout} label="Ground" value={data.derivedGround} active={data.derivedGround !== "READY"} />
+              <Pill icon={Sprout} label="Ground" value={data.derivedGround} active={data.derivedGround === "Poor" || data.derivedGround === "Moderate"} />
               <Pill icon={MoonStar} label="Floodlights" value={data.floodLights ? "On" : "Off"} active={data.floodLights} />
               <Pill icon={Sun} label="Weather" value={data.derivedWeather} active={false} />
             </div>
@@ -51,7 +61,7 @@ function Ground() {
         </div>
       </div>
 
-      <AlertPanel data={data} />
+      <AlertPanel data={data} weather={weather} />
     </div>
   );
 }
@@ -60,36 +70,22 @@ function FieldMap({ moisture, rain, light }: { moisture: number; rain: boolean; 
   return (
     <div className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-border/60 bg-primary">
       <div className="absolute inset-0 pitch-stripes" />
-      {/* Boundary */}
       <div className="absolute inset-4 rounded-full border-4 border-white/70" />
-      {/* 30-yard circle */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[70%] w-[55%] rounded-full border-2 border-white/50" />
-      {/* Pitch */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[55%] w-[12%] bg-pitch rounded shadow-2xl">
         <div className="absolute inset-x-0 top-[8%] h-px bg-white" />
         <div className="absolute inset-x-0 bottom-[8%] h-px bg-white" />
         <div className="absolute inset-x-0 top-1/2 h-px bg-white/70" />
       </div>
-      {/* Moisture overlay */}
-      <div
-        className="absolute inset-0 bg-info/40 mix-blend-overlay"
-        style={{ opacity: Math.min(moisture / 100, 0.75) }}
-      />
-      {/* Light overlay */}
-      <div
-        className="absolute inset-0 bg-black"
-        style={{ opacity: Math.max(0, 0.5 - light / 2000) }}
-      />
-      {/* Rain */}
+      <div className="absolute inset-0 bg-info/40 mix-blend-overlay" style={{ opacity: Math.min(moisture / 100, 0.75) }} />
+      <div className="absolute inset-0 bg-black" style={{ opacity: Math.max(0, 0.5 - light / 2000) }} />
       {rain && (
         <div className="absolute inset-0 overflow-hidden">
           {Array.from({ length: 60 }).map((_, i) => (
-            <span key={i} className="rain-drop absolute w-px h-6 bg-info/80"
-              style={{ left: `${(i*1.7)%100}%`, animationDelay: `${(i%12)*0.1}s` }} />
+            <span key={i} className="rain-drop absolute w-px h-6 bg-info/80" style={{ left: `${(i*1.7)%100}%`, animationDelay: `${(i%12)*0.1}s` }} />
           ))}
         </div>
       )}
-      {/* Corner sensors */}
       {[
         { top: "8%", left: "8%" },
         { top: "8%", right: "8%" },
