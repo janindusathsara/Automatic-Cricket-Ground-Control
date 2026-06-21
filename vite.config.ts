@@ -7,7 +7,16 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  tanstackStart: {
+    tanstackStart: {
+    // nitro/vite builds from this
     server: { entry: "server" },
+    
+    // Add the SPA options right here inside the object block:
+    spa: {
+      enabled: true,
+      prerender: {
+        outputPath: '/index.html'
+      }
+    }
   },
 });
