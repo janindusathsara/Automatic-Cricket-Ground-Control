@@ -9,13 +9,6 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
     server: { entry: "server" },
-    // SPA prerender disabled: the preview-server-plugin in @tanstack/start-plugin-core
-    // looks for `dist/server/server.js`, but Nitro emits `dist/server/index.mjs`,
-    // causing the prerender crawler to 500 on every page.
-    spa: {
-      enabled: true,
-    },
   },
 });
