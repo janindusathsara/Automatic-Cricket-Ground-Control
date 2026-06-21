@@ -29,6 +29,16 @@ export function SensorProvider({ children }: { children: ReactNode }) {
   const s = useSensorData();
   const w = useWeatherData();
   const p = usePredictionData();
+
+  useEffect(() => {
+    syncWeather().catch((err) => console.warn("[weather-sync]", err));
+    const id = setInterval(
+      () => syncWeather().catch((err) => console.warn("[weather-sync]", err)),
+      10 * 60 * 1000,
+    );
+    return () => clearInterval(id);
+  }, []);
+
   const value: Ctx = {
     ...s,
     weather: w.data,
