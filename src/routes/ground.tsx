@@ -46,7 +46,7 @@ function Ground() {
 
         <div className="flex flex-col gap-4">
           <Gauge label="Soil Moisture" value={data.soilMoisture} max={100} unit="%" tone={data.soilMoisture > 75 ? "danger" : "success"} icon={Sprout} />
-          <Gauge label="Light Level" value={data.light} max={1500} unit="lux" tone={data.light < 200 ? "warning" : "info"} icon={Sun} />
+          <Gauge label="Light Level" value={typeof data.light === 'number' ? Number(data.light.toFixed(2)) : data.light} max={1500} unit="lux" tone={data.light < 200 ? "warning" : "info"} icon={Sun} />
           <div className="glass rounded-2xl p-5">
             <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
               <Activity className="h-4 w-4" /> Environmental

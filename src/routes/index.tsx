@@ -58,7 +58,7 @@ function Dashboard() {
           tone={data.humidity > 85 ? "warning" : "info"}
           hint={data.humidity > 85 ? "Very humid" : "Comfortable"}
           updatedAt={data.lastUpdated} />
-        <KpiCard label="Light Intensity" value={data.light} unit="lux" icon={Sun}
+        <KpiCard label="Light Intensity" value={typeof data.light === 'number' ? data.light.toFixed(2) : data.light} unit="lux" icon={Sun}
           tone={data.light < 200 ? "warning" : "default"}
           hint={data.light < 200 ? "Low light" : data.light > 800 ? "Bright" : "Adequate"}
           updatedAt={data.lastUpdated} />
