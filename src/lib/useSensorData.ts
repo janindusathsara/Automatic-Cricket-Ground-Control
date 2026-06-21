@@ -24,7 +24,7 @@ export type HistoryPoint = {
 };
 
 const MAX_HISTORY = 120;
-const SENSORS_PATH = "/cricket_ground/sensors";
+const SENSORS_PATH = "/data";
 const WEATHER_PATH = "/cricket_ground/weather";
 const PREDICTION_PATH = "/cricket_ground/prediction";
 
