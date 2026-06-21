@@ -6,7 +6,7 @@ import {
   type EnrichedSensor,
   type HistoryPoint,
 } from "./useSensorData";
-import { syncWeather } from "./weather-sync.functions";
+import { syncWeather } from "./weather-sync";
 import type { PredictionData, WeatherData } from "./sensor-types";
 
 type Ctx = {

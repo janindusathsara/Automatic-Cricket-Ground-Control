@@ -1,4 +1,8 @@
-import { createServerFn } from "@tanstack/react-start";
+// Client-side weather sync. Runs in the browser so it works on static
+// Firebase Hosting deploys (no server runtime available there).
+// NOTE: VITE_WEATHERAPI_KEY is exposed in the client bundle — that is
+// unavoidable for a static deploy. Restrict the WeatherAPI key by
+// referrer/quota in the WeatherAPI dashboard.
 
 const RTDB_URL =
   "https://cricket-ground-control-default-rtdb.asia-southeast1.firebasedatabase.app";
@@ -16,9 +20,9 @@ type WeatherAPIResponse = {
   };
 };
 
-export const syncWeather = createServerFn({ method: "POST" }).handler(async () => {
-  const apiKey = process.env.WEATHERAPI_KEY;
-  if (!apiKey) throw new Error("WEATHERAPI_KEY not configured");
+export async function syncWeather() {
+  const apiKey = import.meta.env.VITE_WEATHERAPI_KEY as string | undefined;
+  if (!apiKey) throw new Error("VITE_WEATHERAPI_KEY not configured");
 
   const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${encodeURIComponent(
     LOCATION,
@@ -47,4 +51,4 @@ export const syncWeather = createServerFn({ method: "POST" }).handler(async () =
   if (!putRes.ok) throw new Error(`RTDB write ${putRes.status}: ${await putRes.text()}`);
 
   return { ok: true, ...payload };
-});
+}
