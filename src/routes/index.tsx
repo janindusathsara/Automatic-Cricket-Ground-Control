@@ -70,8 +70,8 @@ function Dashboard() {
           tone={data.rain ? "danger" : "success"}
           hint={data.rain ? "Active rainfall" : "No precipitation"}
           updatedAt={data.lastUpdated} />
-        <KpiCard label="Match Status" value={data.matchStatus ?? data.derivedMatch.status} icon={Trophy}
-          tone={data.derivedMatch.status === "PLAYABLE" ? "success" : data.derivedMatch.status === "NOT PLAYABLE" ? "danger" : "warning"}
+        <KpiCard label="Match Status" value={data.derivedMatch.status === "PLAYABLE" ? "Playing" : "Not Playing"} icon={Trophy}
+          tone={data.derivedMatch.status === "PLAYABLE" ? "success" : "danger"}
           updatedAt={data.lastUpdated} />
         <KpiCard label="Ground Status" value={data.derivedGround} icon={Activity}
           tone={groundToneMap[data.derivedGround]}
