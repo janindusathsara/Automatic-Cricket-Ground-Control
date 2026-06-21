@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useEffect, type ReactNode } from "react";
 import {
   useSensorData,
   useWeatherData,
@@ -6,6 +6,7 @@ import {
   type EnrichedSensor,
   type HistoryPoint,
 } from "./useSensorData";
+import { syncWeather } from "./weather-sync.functions";
 import type { PredictionData, WeatherData } from "./sensor-types";
 
 type Ctx = {
