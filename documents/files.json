@@ -7,6 +7,30 @@
       "path": "/documents/Project Proposal.pdf",
       "size": "270 kB",
       "description": "Project proposal for the Automated Cricket Ground Control System."
+    },
+    {
+      "name": "Project Report",
+      "filename": "Project Report - Automatic Cricket Ground Control.pdf",
+      "type": "PDF",
+      "path": "/documents/Project Report - Automatic Cricket Ground Control.pdf",
+      "size": "1519 kB",
+      "description": "Project report for the Automated Cricket Ground Control System."
+    },
+    {
+      "name": "Arduino Code",
+      "filename": "Arduino Code.ino",
+      "type": "INOs",
+      "path": "/documents/Arduino Code.ino",
+      "size": "5 kB",
+      "description": "Arduino code for the Automated Cricket Ground Control System."
+    },
+    {
+      "name": "LabVIEW file",
+      "filename": "LabVIEW file.vi",
+      "type": "VI",
+      "path": "/documents/LabVIEW file.vi",
+      "size": "42 kB",
+      "description": "LabVIEW file for the Automated Cricket Ground Control System."
     }
   ]
 }
